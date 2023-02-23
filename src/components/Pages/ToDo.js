@@ -1,32 +1,32 @@
-import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
-export function ToDo({ list }) {
+export function ToDo({ list, setList }) {
   const listToDo = list.filter((currentElement) => {
     return currentElement.status === false;
   });
 
-  const [formStatus, setFormStatus] = useState(false);
-  const [form, setForm] = useState({
-    id: { uuidv4 },
-    name: "",
-    description: "",
-    status: false,
-  });
-
-  function handleClick() {
-    setFormStatus(!formStatus);
+  function handleClick(id) {
+    console.log(id);
+    let findTask = list.find((currentTask) => currentTask.id === id); // para encontrar o id
+    let findIndex = list.indexOf(findTask); // para encontrar a posição
+    let clone = [...list]; // array clonada
+    clone[findIndex].status = true; // alteração da array clonada
+    setList(clone);
   }
 
   function handleDelete(id) {
-    const updatedList = { ...form, status: true };
-    setForm(updatedList);
+    let findTask = list.find((currentTask) => currentTask.id === id);
+    // console.log(id);
+    // console.log(findTask);
+    let findIndex = list.indexOf(findTask);
+    // console.log(findIndex);
+    let clone = [...list];
+    clone.splice(findIndex, 1);
+    // console.log(clone);
+    setList(clone);
   }
 
-  // function handleDelete(){
-  // const updatedList = form.filter(currentForm => form.id !== id)
-  // setForm(updatedList)
-  // }
+  console.log(list); // do componente
 
   return (
     <>
@@ -44,8 +44,12 @@ export function ToDo({ list }) {
                 <strong>Descrição: </strong>
                 {currentTask.description}
               </p>
-              <button onClick={handleClick}>I did it!</button>
-              <button onClick={handleDelete}>Delete</button>
+              <button onClick={() => handleClick(currentTask.id)}>
+                I did it!
+              </button>
+              <button onClick={() => handleDelete(currentTask.id)}>
+                Delete
+              </button>
             </>
           );
         })}

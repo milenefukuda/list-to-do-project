@@ -7,7 +7,7 @@ export function Home() {
   const [list, setList] = useState([]);
 
   const [form, setForm] = useState({
-    id: { uuidv4 },
+    id: uuidv4(),
     name: "",
     description: "",
     status: false,
@@ -23,7 +23,7 @@ export function Home() {
     setList([...list, form]); // await axios post // api // id plural //
 
     setForm({
-      id: { uuidv4 },
+      id: uuidv4(),
       name: "",
       description: "",
       status: false,
